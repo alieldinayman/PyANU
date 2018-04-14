@@ -2,12 +2,14 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import math
 import numpy as np
+import scipy.integrate
 import sys
 
 from PIL import Image
 import pyscreenshot as ImageGrab
 
-NewCapture = True
+NewCapture = True #USED FOR SELECTING WHETHER THE HORIZONTAL FUNCTION WILL
+                  #SCREENSHOT A NEW IMAGE OR USE THE LAST EXISTING ONE.
 
 class PyANU:
 
@@ -44,13 +46,11 @@ class PyANU:
         dAP = dA / 32.8  # DISTANCE IN PIXELS
 
         print('Plane covered ' + str(dA) + ' metres in ' + str(heading) + '° while ascending from take-off point')
-        print('\nCoordinates on X: ' + str(x_arr[0] + math.sin(heading * math.pi / 180) * dAP))
-        print('Coordinates on Y: ' + str(y_arr[0] + math.cos(heading * math.pi / 180) * dAP))
+        #print('\nCoordinates on X: ' + str(x_arr[0] + math.sin(heading * math.pi / 180) * dAP))
+        #print('Coordinates on Y: ' + str(y_arr[0] + math.cos(heading * math.pi / 180) * dAP))
 
-        print('\nMoved on X: ' + str(math.sin(heading * math.pi / 180) * dA) + ' metres and ' +
-              str(math.sin(heading * math.pi / 180) * dAP) + ' pixels')
-        print('Moved on Y: ' + str(math.cos(heading * math.pi / 180) * dA) + ' metres and ' +
-              str(math.cos(heading * math.pi / 180) * dAP) + ' pixels')
+        print('\nMoved on X: ' + str(math.sin(heading * math.pi / 180) * dA) + ' metres')
+        print('Moved on Y: ' + str(math.cos(heading * math.pi / 180) * dA) + ' metres')
 
         x_arr.append(x_arr[0] + math.sin(heading * math.pi / 180) * dAP)
         y_arr.append(y_arr[0] + math.cos(heading * math.pi / 180) * dAP)
@@ -70,46 +70,53 @@ class PyANU:
         dDP = dD / 32.8  # DISTANCE IN PIXELS
 
         print('Plane covered ' + str(dD) + ' metres in ' + str(heading) + '° while descending from engine fail point')
-        print('\nCoordinates on X: ' + str(x_arr[1] + math.sin(heading * math.pi / 180) * dDP))
-        print('Coordinates on Y: ' + str(y_arr[1] + math.cos(heading * math.pi / 180) * dDP))
+        #print('\nCoordinates on X: ' + str(x_arr[1] + math.sin(heading * math.pi / 180) * dDP))
+        #print('Coordinates on Y: ' + str(y_arr[1] + math.cos(heading * math.pi / 180) * dDP))
 
-        print('\nMoved on X: ' + str(math.sin(heading * math.pi / 180) * dD) + ' metres and ' +
-              str(math.sin(heading * math.pi / 180) * dDP) + ' pixels')
-        print('Moved on Y: ' + str(math.cos(heading * math.pi / 180) * dD) + ' metres and ' +
-              str(math.cos(heading * math.pi / 180) * dDP) + ' pixels')
+        print('\nMoved on X: ' + str(math.sin(heading * math.pi / 180) * dD) + ' metres')
+        print('Moved on Y: ' + str(math.cos(heading * math.pi / 180) * dD) + ' metres')
 
         # ----------------------------------------------------------------------------------------------------------------------
         # ----------------------------------------------------------------------------------------------------------------------
 
         # WIND MOVEMENT
         print('\nWIND MOVEMENT\n')
-        for t in range(int(fall + 1)):
-            vW += eval(windSpd)
+        #for t in range(int(fall + 1)):
+        #    vW += eval(windSpd)
 
-        vWP = vW / 32.8
-        vWX = vWP * abs(math.sin(windAng * math.pi / 180))
-        vWY = vWP * abs(math.cos(windAng * math.pi / 180))
+        f = lambda t:eval(windSpd)
+        vW = scipy.integrate.quad(f, 0, fall)
 
-        print('WIND COVERED ' + str(vW) + ' metres. On X: ' + str(vWX * 32.8) + ' metres & ' + str(
-            vWX) + ' pixels, on Y: ' +
-              str(vWY * 32.8) + ' metres & ' + str(vWY) + ' pixels.')
+        print("\nvW: " + str(vW))
+
+        vX = vW[0]
+        vY = vW[1]
+
+        vWX = vW[0] / 32.8 #X ON THE WORLD MAP IN PIXELS
+        vWY = vW[1] / 32.8 #Y ON THE WORLD MAP IN PIXELS
+        
+        if (vY < 0.5): #FOR THE 270 WIND ANGLE SPECIAL CASE
+            vY = 0
+
+        print('On X: ' + str(vX) + ' metres' '\nOn Y: ' + str(vY) + ' metres')
+
+        # ----------------------------------------------------------------------------------------------------------------------
+        # ----------------------------------------------------------------------------------------------------------------------
+
+        #TOTAL MOVEMENT
+        print("\nTotal Movement: ")
+        totalX = vX + (math.sin(heading * math.pi / 180) * dD) + (math.sin(heading * math.pi / 180) * dA)
+        totalY = vY + (math.cos(heading * math.pi / 180) * dD) + (math.cos(heading * math.pi / 180) * dA)
+        print("On X: " + str(totalX))
+        print("On Y: " + str(totalY))
+        print("\nReported Search Zone: " + str(((totalX**2)+(totalY**2))**0.5) + " meters, in direction: "
+              + str(math.degrees(math.atan(totalX/totalY)) + 180) + " degrees from " + str(takeoff) + " point.")
 
         x_arr.append(x_arr[1] + (math.sin(heading * math.pi / 180) * dDP) + vWX)
         y_arr.append(y_arr[1] + (math.cos(heading * math.pi / 180) * dDP) + vWY)
 
         plt.plot(x_arr, y_arr, 'ro-')
         plt.show(imgplot)
-
-    def Seismo(self, x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6, x7, y7, x8, y8, x9, y9, x10, y10, x11, y11, x12, y12, x13, y13, x14, y14, x15, y15, x16, y16):
-        '''x = np.array([0, 1.1, 1.3, 1.4, 1.5, 2, 2.2, 2.4, 2.6, 3, 3.1, 3.2, 3.3, 3.9])
-        y = np.array([0, 0, 4.4, -4.3, 0, 0, 6.8, -7, 0, 0, 1.6, -1.6, 0, 0])'''
-        x = np.array([x1, x2, x3, x4, x5, x6, x7, x8, x9, x10, x11, x12, x13, x14, x15, x16])
-        y = np.array([y1, y2, y3, y4, y5, y6, y7, y8, y9, y10, y11, y12, y13, y14, y15, y16])
-        plt.xlabel('Time(s)')
-        plt.ylabel('Amplitude')
-        plt.plot(x, y, 'bo-')
-        plt.grid(color='grey', linestyle='-', linewidth=0.5)
-        plt.show()
 
     def Power(self, N, p, a, v, Cp):
         a = (float(a) ** 2) * 3.14159

@@ -38,10 +38,16 @@ class CSR:
         ap.add_argument("-b", "--buffer", type=int, default=64,
                         help="max buffer size")
         args = vars(ap.parse_args())
-        
-        lower = {'red': (166, 84, 141), 'green': (66, 122, 129), 'blue': (102, 104, 121), 'yellow': (23, 59, 119),
+
+        #OLD RANGES
+        '''lower = {'red': (166, 84, 141), 'green': (66, 122, 129), 'blue': (102, 104, 121), 'yellow': (23, 59, 119),
          'orange': (0, 50, 80)}  # assign new item lower['blue'] = (93, 10, 0)
         upper = {'red': (186, 255, 255), 'green': (86, 255, 255), 'blue': (119, 255, 255), 'yellow': (54, 255, 255),
+         'orange': (20, 255, 255)}'''
+        
+        lower = {'red': (163, 84, 93), 'green': (66, 122, 129), 'blue': (100, 86, 8), 'yellow': (8, 133, 55),
+         'orange': (0, 50, 80)}  # assign new item lower['blue'] = (93, 10, 0)
+        upper = {'red': (187, 237, 255), 'green': (86, 255, 255), 'blue': (124, 237, 246), 'yellow': (33, 227, 266),
          'orange': (20, 255, 255)}
 
         colors = {'red': (0, 0, 255), 'green': (0, 255, 0), 'blue': (255, 2, 2), 'yellow': (0, 255, 217),

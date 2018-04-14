@@ -1,7 +1,0 @@
-*Added the NewCapture flag to know if the horizontal
-should make a new capture or use the last taken photo
-*Fixed the CSR by adding green, orange and yellow to
-be displayed as yellow
-*Added showing big letters instead of descriptive
-text on the screen
-*Removed the RES from the CSR

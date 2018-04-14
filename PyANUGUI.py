@@ -466,7 +466,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "PyANU v2.3.0"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "PyANU v2.3.2"))
         self.label.setText(_translate("MainWindow", "No. of Turbines"))
         self.label_2.setText(_translate("MainWindow", "Density of the Water in kg/m^3"))
         self.label_3.setText(_translate("MainWindow", "Radius of a Turbine in Metres"))
