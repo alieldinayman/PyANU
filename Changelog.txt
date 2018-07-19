@@ -23,3 +23,10 @@ v2.3.2:
 *Adjusted CSR HSV color ranges to fit darker places via the Color Picker algorithm.
 *Changed the wind equation to integrate over time using SciPy instead of updated incrementing to increase the accuracy.
 *Changed many of the output printing methods in the Crashmap function.
+
+v2.4.0:
+*Added Real-Time OCR using Tesseract, OpenCV and PyScreenshot
+
+v2.4.1:
+*Added conditional aircraft type output to the OCR function.
+*Improved OCR accuracy using multiple data pre-processing techniques.
