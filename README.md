@@ -1,8 +1,10 @@
 # PyANU
-<<<<<<< HEAD
-A Python software written to operate for the Co-Pilot tasks of the Remotely-Operated underwater Vehicle (ROV) "Anubis" of the company "ABYDOS ROV CO.", the software was developed for the company's entry in the MATE EXPLORER ROV global competition, and was used for co-piloting the regional competition by me.
+• PyANU is a data science software application, packed with features for co-piloting and calculating various outcomes for remotelyoperated
+underwater vehicles.
+• Features include: estimating and plotting a plane’s crash site on a map, calculating distances using coordinate pixel conversion, color
+and shape recognition, and various other tools.
 
-#Changelog
+# Changelog
 v2.0.0:
 *Implemented the GUI using PyQt4.
 *Changed the wind equation to be variable in plotting the Crashmap.
@@ -36,6 +38,4 @@ v2.4.1:
 *Added conditional aircraft type output to the OCR function.
 *Improved OCR accuracy using multiple data pre-processing techniques.
 
-=======
-A Python software written to operate for the Co-Pilot tasks of the Remotely-Operated underwater Vehicle (ROV) "Anubis" of the company "ABYDOS ROV CO.", the software was developed for the company's entry in the MATE EXPLORER ROV global competition which won the first place and "Best Software Implementation" by the judges of the competition, and was used for co-piloting in the regional competition by me.
->>>>>>> 6cc03d4bbb8eaebe1e5c4080c75406b1f07b86cb
+
